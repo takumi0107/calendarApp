@@ -1,29 +1,30 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
-export default function Button(){
-    return (
-      <TouchableOpacity style={styles.buttonContainer}>
-        <Text style={styles.button}>+</Text>
-      </TouchableOpacity>
-    );
-  }
-
+export default function Button() {
+  return (
+  <TouchableOpacity style={styles.submitContainer}>
+      <Text style={styles.submit}>Submit</Text>
+  </TouchableOpacity>
+  );
+}
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-     backgroundColor: 'orange',
-     flex: 1,
-     justifyContent: 'space-around',
-     alignItems: 'center',
-     width: 50,
-     height: 50,
-     borderRadius: 50,
-     elevation: 8,
-  },
-  button: {
-     fontSize: 16,
-  },
-})
-;
+    submitContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#00bfff',
+        width: 90,
+        height: 50,
+        borderRadius: 30,
+    },
+    submit: {
+        fontWeight: 'bold',
+        fontSize: 20,
+    },
+});

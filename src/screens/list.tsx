@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Button from '../components/button';
+import CircleButton from '../components/circleButton';
 
 export default class List extends React.Component {
   render() {
@@ -78,7 +78,7 @@ export default class List extends React.Component {
         </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-        <Button />
+        <CircleButton />
         </View>
         </ScrollView>
     );

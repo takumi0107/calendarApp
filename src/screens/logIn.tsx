@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Text} from 'react-native';
+import { View, StyleSheet, TextInput, Text, Touchable, TouchableOpacity } from 'react-native';
+import Button from '../components/button';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -28,6 +29,12 @@ export default function Login() {
     placeholder="Password"
     autoCapitalize="none"
     secureTextEntry />
+    </View>
+    <TouchableOpacity>
+    <Text style={styles.signUp}>Sign up here!</Text>
+    </TouchableOpacity>
+    <View style={styles.buttonContainer}>
+    <Button />
     </View>
     </View>
   );
@@ -60,5 +67,16 @@ const styles = StyleSheet.create({
     password: {
         fontSize: 20,
         backgroundColor: '#fffaf0',
+    },
+    buttonContainer: {
+        position: 'absolute',
+        right: 32,
+        top: 300,
+    },
+    signUp: {
+        paddingHorizontal: 50,
+        paddingTop: 20,
+        color: '#00bfff',
+        fontSize: 15,
     },
 });

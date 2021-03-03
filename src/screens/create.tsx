@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import Button from '../components/button';
+import CircleButton from '../components/circleButton';
 
 export default function Create() {
   const [content, setContent] = useState('');
@@ -11,7 +11,7 @@ export default function Create() {
       <View style={styles.top}>
           <Text style={styles.topText}>Add Schedule</Text>
           <View style={styles.buttonContainer}>
-              <Button />
+              <CircleButton />
               </View>
       </View>
       <View style={styles.pickContainer}>
