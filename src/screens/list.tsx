@@ -3,8 +3,8 @@ import React from 'react';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import CircleButton from '../components/circleButton';
 
-export default class List extends React.Component {
-  render() {
+export default function List(props: { navigation: any; }) {
+    const { navigation } = props;
     return (
         <ScrollView style={styles.container}>
         <View style={styles.top}>
@@ -83,7 +83,7 @@ export default class List extends React.Component {
         </ScrollView>
     );
   }
-}
+
 
 const styles = StyleSheet.create({
     container: {

@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
 import Button from '../components/button';
 
-export default function Signup() {
+export default function SignUp(props: {navigation: any;}) {
+  const {navigation} = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
@@ -30,11 +31,19 @@ export default function Signup() {
     autoCapitalize="none"
     secureTextEntry />
     </View>
-    <TouchableOpacity>
+    <TouchableOpacity
+    onPress={() => {navigation.reset({
+        index: 0,
+        routes: [{ name: 'Login'}],
+    }
+    );}}>
     <Text style={styles.signUp}>Log in here!</Text>
     </TouchableOpacity>
     <View style={styles.buttonContainer}>
-    <Button />
+    <Button onPress={() => {navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home'}],
+    });}} />
     </View>
     </View>
   );

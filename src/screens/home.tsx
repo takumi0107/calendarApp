@@ -1,23 +1,20 @@
 /* eslint-disable prettier/prettier */
 import {Calendar} from 'react-native-calendars';
-import {View, StyleSheet, Alert} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import React from 'react';
 
-export default class App extends React.Component {
-  render() {
+export default function Home(props: {navigation: any;}) {
+  const { navigation } = props;
     return (
       <View style={styles.container}>
         <Calendar
-          onDayPress={() => {
-            Alert.alert('ok');
-          }}
+          onDayPress={() => navigation.navigate('List')}
           monthFormat={'yyyy MM'}
           enableSwipeMonths={true}
         />
       </View>
     );
   }
-}
 
 const styles = StyleSheet.create({
   container: {

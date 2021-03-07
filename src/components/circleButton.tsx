@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { string } from 'prop-types';
+import { string, func } from 'prop-types';
 
-export default function CircleButton(props: { mark: any; }){
-    const { mark } = props;
+export default function CircleButton(props: { mark: any; onPress: any; }){
+    const { mark, onPress } = props;
     return (
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
         <Text style={styles.button}>{mark}</Text>
       </TouchableOpacity>
     );
@@ -14,6 +14,7 @@ export default function CircleButton(props: { mark: any; }){
 
 CircleButton.propTypes = {
     mark: string,
+    onPress: func,
 };
 
 CircleButton.defaultProps = {
