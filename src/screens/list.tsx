@@ -13,7 +13,7 @@ export default function List(props: { navigation: any; }) {
         <View>
         <TouchableOpacity
         style={styles.list}
-        onPress={() => {}}>
+        onPress={() => {navigation.navigate('Edit');}}>
             <Text style={styles.listTitle}>hello</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -78,7 +78,7 @@ export default function List(props: { navigation: any; }) {
         </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-        <CircleButton />
+        <CircleButton onPress={()=>{navigation.navigate('Create');}} />
         </View>
         </ScrollView>
     );

@@ -1,12 +1,23 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Alert } from 'react-native';
 import Button from '../components/button';
+import firebase from 'firebase';
 
 export default function SignUp(props: {navigation: any;}) {
   const {navigation} = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  function handlePress() {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => {
+          navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home'}],
+          });
+      })
+      .catch((error) => {Alert.alert(error.message);});
+}
   return (
     <View style={styles.container}>
     <View style={styles.top}>
@@ -40,10 +51,7 @@ export default function SignUp(props: {navigation: any;}) {
     <Text style={styles.signUp}>Log in here!</Text>
     </TouchableOpacity>
     <View style={styles.buttonContainer}>
-    <Button onPress={() => {navigation.reset({
-        index: 0,
-        routes: [{ name: 'Home'}],
-    });}} />
+    <Button onPress={handlePress}/>
     </View>
     </View>
   );
