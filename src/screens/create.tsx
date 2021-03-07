@@ -11,7 +11,7 @@ export default function Create() {
       <View style={styles.top}>
           <Text style={styles.topText}>Add Schedule</Text>
           <View style={styles.buttonContainer}>
-              <CircleButton />
+              <CircleButton mark={'✓'}/>
               </View>
       </View>
       <View style={styles.pickContainer}>

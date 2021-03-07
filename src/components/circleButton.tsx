@@ -1,15 +1,24 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { string } from 'prop-types';
 
-export default function CircleButton(){
+export default function CircleButton(props: { mark: any; }){
+    const { mark } = props;
     return (
       <TouchableOpacity style={styles.buttonContainer}>
-        <Text style={styles.button}>+</Text>
+        <Text style={styles.button}>{mark}</Text>
       </TouchableOpacity>
     );
   }
 
+CircleButton.propTypes = {
+    mark: string,
+};
+
+CircleButton.defaultProps = {
+    mark: '+',
+};
 
 const styles = StyleSheet.create({
   buttonContainer: {

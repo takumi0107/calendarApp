@@ -3,13 +3,13 @@ import React, {useState} from 'react';
 import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
 import Button from '../components/button';
 
-export default function Login() {
+export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
     <View style={styles.container}>
     <View style={styles.top}>
-    <Text style={styles.topTitle}>Log In</Text>
+    <Text style={styles.topTitle}>Sign Up</Text>
     </View>
     <View style={styles.emailContainer}>
     <TextInput
@@ -31,7 +31,7 @@ export default function Login() {
     secureTextEntry />
     </View>
     <TouchableOpacity>
-    <Text style={styles.signUp}>Sign up here!</Text>
+    <Text style={styles.signUp}>Log in here!</Text>
     </TouchableOpacity>
     <View style={styles.buttonContainer}>
     <Button />
