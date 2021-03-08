@@ -3,17 +3,31 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import CircleButton from '../components/circleButton';
+import firebase from 'firebase';
 
 export default function Create(props: { navigation: any; }) {
   const { navigation } = props;
   const [content, setContent] = useState('');
   const [level, setLevel] = useState('');
+
+  function handlePress() {
+      const {currentUser} = firebase.auth();
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser?.uid}/schedules`);
+      ref.add({
+          bodyText: 'Hello',
+      })
+       .then(() => {
+        navigation.goBack();
+       })
+       .catch();
+}
   return (
     <View style={styles.container}>
       <View style={styles.top}>
           <Text style={styles.topText}>Add Schedule</Text>
           <View style={styles.buttonContainer}>
-              <CircleButton mark={'✓'} onPress={()=>{navigation.goBack();}} />
+              <CircleButton mark={'✓'} onPress={handlePress} />
               </View>
       </View>
       <View style={styles.pickContainer}>
