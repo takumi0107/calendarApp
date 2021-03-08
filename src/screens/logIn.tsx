@@ -1,12 +1,40 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
-import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Alert } from 'react-native';
 import Button from '../components/button';
+import firebase from 'firebase';
+
 
 export default function Login(props: { navigation: any; }) {
   const {navigation} = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+      const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+              navigation.reset({
+                  index: 0,
+                  routes: [{ name: 'Home' }],
+              });
+          }
+      });
+      return unsubscribe;
+  }, [navigation]);
+
+  function handlePress() {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+          navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home'}],
+          });
+      })
+      .catch((error) => {
+          Alert.alert(error.message);
+      });
+  }
+
   return (
     <View style={styles.container}>
     <View style={styles.top}>
@@ -40,10 +68,7 @@ export default function Login(props: { navigation: any; }) {
     <Text style={styles.signUp}>Sign up here!</Text>
     </TouchableOpacity>
     <View style={styles.buttonContainer}>
-    <Button onPress={() => {navigation.reset({
-        index: 0,
-        routes: [{ name: 'Home'}],
-    });}} />
+    <Button onPress={handlePress} />
     </View>
     </View>
   );
