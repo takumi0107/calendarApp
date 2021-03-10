@@ -1,86 +1,62 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View, Alert, FlatList} from 'react-native';
 import CircleButton from '../components/circleButton';
+import firebase from 'firebase';
 
 export default function List(props: { navigation: any; }) {
     const { navigation } = props;
+    const [schedule, setSchedule] = useState<any[]>([]);
+
+    useEffect(() => {
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        let unsubscribe = () => {};
+        if (currentUser) {
+          const ref = db.collection(`users/${currentUser.uid}/schedules`);
+          unsubscribe = ref.onSnapshot((snapshot) => {
+            const userSchedule: {id: string; level: string; schedule: string; }[] = [];
+            snapshot.forEach((doc) => {
+              const data = doc.data();
+              userSchedule.push({
+                id: doc.id,
+                level: data.level,
+                schedule: data.schedule,
+              });
+              setSchedule(userSchedule);
+            }, () => {
+              Alert.alert('データの読み込みに失敗しました。');
+            });
+          });
+        }
+        return unsubscribe;
+      }, []);
+
+    function renderItem({item}: any) {
+        return (
+            <TouchableOpacity
+            style={styles.list}
+            onPress={() => {navigation.navigate('Edit', {id: item.id, level: item.level, schedule: item.schedule });}}>
+            <Text style={styles.listTitle}>{item.schedule}</Text>
+            </TouchableOpacity>
+        );
+    }
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
         <View style={styles.top}>
             <Text style={styles.topTitle}>Schedule</Text>
         </View>
         <View>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {navigation.navigate('Edit');}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        style={styles.list}
-        onPress={() => {}}>
-            <Text style={styles.listTitle}>hello</Text>
-        </TouchableOpacity>
+            <FlatList
+            data={schedule}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            />
         </View>
         <View style={styles.buttonContainer}>
         <CircleButton onPress={()=>{navigation.navigate('Create');}} />
         </View>
-        </ScrollView>
+        </View>
     );
   }
 

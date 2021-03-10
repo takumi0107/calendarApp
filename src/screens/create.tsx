@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import CircleButton from '../components/circleButton';
 import firebase from 'firebase';
@@ -14,13 +14,22 @@ export default function Create(props: { navigation: any; }) {
       const {currentUser} = firebase.auth();
       const db = firebase.firestore();
       const ref = db.collection(`users/${currentUser?.uid}/schedules`);
+      if (!level) {
+          Alert.alert('Please choose importance');
+      }
+      else if (!content) {
+          Alert.alert('Please input schedule');
+      }
+      else {
       ref.add({
-          bodyText: 'Hello',
+          level,
+          schedule: content,
       })
        .then(() => {
         navigation.goBack();
        })
-       .catch();
+       .catch((error) => {Alert.alert(error.message);});
+    }
 }
   return (
     <View style={styles.container}>
