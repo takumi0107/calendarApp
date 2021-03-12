@@ -5,6 +5,7 @@ import { string, func } from 'prop-types';
 
 export default function CircleButton(props: { mark: any; onPress: any; }){
     const { mark, onPress } = props;
+
     return (
       <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
         <Text style={styles.button}>{mark}</Text>

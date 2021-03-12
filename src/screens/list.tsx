@@ -3,13 +3,19 @@ import React, {useState,useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View, Alert, FlatList} from 'react-native';
 import CircleButton from '../components/circleButton';
 import firebase from 'firebase';
+import Button from '../components/button';
 
 export default function List(props: { navigation: any; route: any; }) {
     const { navigation, route } = props;
     const [schedule, setSchedule] = useState<any[]>([]);
     const { day } = route.params;
+    function handlePress(id: string) {
+      const { currentUser } = firebase.auth();
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser?.uid}/date/${day}/schedules`).doc(id);
+      ref.delete().catch(() => Alert.alert('削除できませんでした。'));
+    }
     useEffect(() => {
-        console.log(day);
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         let unsubscribe = () => {};
@@ -39,6 +45,9 @@ export default function List(props: { navigation: any; route: any; }) {
             style={styles.list}
             onPress={() => {navigation.navigate('Edit', {id: item.id, e_level: item.level, e_schedule: item.schedule, date: day });}}>
             <Text style={styles.listTitle}>{item.schedule}</Text>
+            <View style={styles.buttonContainer}>
+            <Button onPress={() => {handlePress(item.id);}} style={styles.button} content="x"/>
+            </View>
             </TouchableOpacity>
         );
     }
@@ -54,7 +63,7 @@ export default function List(props: { navigation: any; route: any; }) {
             keyExtractor={item => item.id}
             />
         </View>
-        <View style={styles.buttonContainer}>
+        <View style={styles.circleButtonContainer}>
         <CircleButton onPress={()=>{navigation.navigate('Create', day);}} />
         </View>
         </View>
@@ -79,6 +88,7 @@ const styles = StyleSheet.create({
         fontWeight: 'normal',
     },
     list: {
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth: 1,
@@ -90,6 +100,16 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     buttonContainer: {
+        position: 'absolute',
+        right: 30,
+    },
+    button: {
+        backgroundColor: 'grey',
+        height: 40,
+        width: 40,
+        opacity: 0.5,
+    },
+    circleButtonContainer: {
         position: 'absolute',
         top: 32,
         right: 32,

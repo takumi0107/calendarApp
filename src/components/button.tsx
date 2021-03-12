@@ -5,18 +5,27 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { func } from 'prop-types';
-export default function Button(props: {onPress: any;}) {
-  const { onPress } = props;
+import { func, string, shape } from 'prop-types';
+export default function Button(props: {onPress: any; content: string; style: any;}) {
+  const { onPress, content, style } = props;
   return (
-  <TouchableOpacity style={styles.submitContainer} onPress={onPress}>
-      <Text style={styles.submit}>Submit</Text>
+  <TouchableOpacity style={[styles.submitContainer, style]} onPress={onPress}>
+      <Text style={styles.submit}>{content}</Text>
   </TouchableOpacity>
   );
 }
 
 Button.propTypes = {
   onPress: func,
+  content: string,
+  style: shape({
+
+  }),
+};
+
+Button.defaultProps = {
+  content: 'Submit',
+  style: null,
 };
 
 const styles = StyleSheet.create({

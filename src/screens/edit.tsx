@@ -1,20 +1,44 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Alert} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import CircleButton from '../components/circleButton';
+import firebase from 'firebase';
 
 export default function Create(props: { navigation: any; route: any;}) {
   const { navigation, route } = props;
   const [content, setContent] = useState('');
   const [level, setLevel] = useState('');
-  const {date, id, e_level, e_schedule} = route.params;
+  const {id, date,e_level, e_schedule} = route.params;
+  function handlePress() {
+      const { currentUser } = firebase.auth();
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser?.uid}/date/${date}/schedules`);
+      const d_ref = db.collection(`users/${currentUser?.uid}/date/${date}/schedules`).doc(id);
+      if (!level) {
+        Alert.alert('Please choose importance');
+    }
+    else if (!content) {
+        Alert.alert('Please input schedule');
+    }
+    else {
+    d_ref.delete();
+    ref.add({
+      level,
+      schedule: content,
+    })
+     .then(() => {
+      navigation.goBack();
+     })
+     .catch((error) => {Alert.alert(error.message);});
+  }
+  }
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-          <Text style={styles.topText}>Add Schedule</Text>
+          <Text style={styles.topText}>Edit Schedule</Text>
           <View style={styles.buttonContainer}>
-              <CircleButton mark={'✓'} onPress={()=>{navigation.goBack();}} />
+              <CircleButton mark={'✓'} onPress={handlePress} />
               </View>
       </View>
       <View style={styles.pickContainer}>
