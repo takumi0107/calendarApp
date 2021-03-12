@@ -4,10 +4,11 @@ import {View, Text, StyleSheet, TextInput} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import CircleButton from '../components/circleButton';
 
-export default function Create(props: { navigation: any; }) {
-  const { navigation } = props;
+export default function Create(props: { navigation: any; route: any;}) {
+  const { navigation, route } = props;
   const [content, setContent] = useState('');
   const [level, setLevel] = useState('');
+  const {date, id, e_level, e_schedule} = route.params;
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -27,7 +28,7 @@ export default function Create(props: { navigation: any; }) {
         >
         <TextInput
         style={styles.choseContainer}
-        placeholder="select importance">{level}</TextInput>
+        placeholder={e_level}>{level}</TextInput>
         </RNPickerSelect>
         </View>
         <View style={styles.contentContainer}>
@@ -35,7 +36,7 @@ export default function Create(props: { navigation: any; }) {
             style={styles.content}
             value={content}
             onChangeText={(schedule) => {setContent(schedule);}}
-            placeholder="put schedule"/>
+            placeholder={e_schedule}/>
         </View>
     </View>
   );

@@ -8,7 +8,7 @@ export default function Home(props: {navigation: any;}) {
     return (
       <View style={styles.container}>
         <Calendar
-          onDayPress={() => navigation.navigate('List')}
+          onDayPress={(day) => navigation.navigate('List', day)}
           monthFormat={'yyyy MM'}
           enableSwipeMonths={true}
         />

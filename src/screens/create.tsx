@@ -5,15 +5,17 @@ import RNPickerSelect from 'react-native-picker-select';
 import CircleButton from '../components/circleButton';
 import firebase from 'firebase';
 
-export default function Create(props: { navigation: any; }) {
-  const { navigation } = props;
+export default function Create(props: { navigation: any; route: any; }) {
+  const { navigation, route } = props;
   const [content, setContent] = useState('');
   const [level, setLevel] = useState('');
+
+  const day = route.params;
 
   function handlePress() {
       const {currentUser} = firebase.auth();
       const db = firebase.firestore();
-      const ref = db.collection(`users/${currentUser?.uid}/schedules`);
+      const ref = db.collection(`users/${currentUser?.uid}/date/${day}/schedules`);
       if (!level) {
           Alert.alert('Please choose importance');
       }

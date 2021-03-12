@@ -4,16 +4,17 @@ import {StyleSheet, Text, TouchableOpacity, View, Alert, FlatList} from 'react-n
 import CircleButton from '../components/circleButton';
 import firebase from 'firebase';
 
-export default function List(props: { navigation: any; }) {
-    const { navigation } = props;
+export default function List(props: { navigation: any; route: any; }) {
+    const { navigation, route } = props;
     const [schedule, setSchedule] = useState<any[]>([]);
-
+    const { day } = route.params;
     useEffect(() => {
+        console.log(day);
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         let unsubscribe = () => {};
         if (currentUser) {
-          const ref = db.collection(`users/${currentUser.uid}/schedules`);
+          const ref = db.collection(`users/${currentUser.uid}/date/${day}/schedules`);
           unsubscribe = ref.onSnapshot((snapshot) => {
             const userSchedule: {id: string; level: string; schedule: string; }[] = [];
             snapshot.forEach((doc) => {
@@ -30,13 +31,13 @@ export default function List(props: { navigation: any; }) {
           });
         }
         return unsubscribe;
-      }, []);
+      }, [day]);
 
     function renderItem({item}: any) {
         return (
             <TouchableOpacity
             style={styles.list}
-            onPress={() => {navigation.navigate('Edit', {id: item.id, level: item.level, schedule: item.schedule });}}>
+            onPress={() => {navigation.navigate('Edit', {id: item.id, e_level: item.level, e_schedule: item.schedule, date: day });}}>
             <Text style={styles.listTitle}>{item.schedule}</Text>
             </TouchableOpacity>
         );
@@ -54,7 +55,7 @@ export default function List(props: { navigation: any; }) {
             />
         </View>
         <View style={styles.buttonContainer}>
-        <CircleButton onPress={()=>{navigation.navigate('Create');}} />
+        <CircleButton onPress={()=>{navigation.navigate('Create', day);}} />
         </View>
         </View>
     );
